@@ -118,10 +118,15 @@ Page({
     countDownNum: '10',//倒计时初始值
 
     clock: '00:00 00',
-    clock_2:'准备倒计时！',
+    clock_2:'准备倒计时！！！',
 
     hidden_num1:true,//控制显示10秒倒计时text
     hidden_num2:false,//控制显示3秒游戏开始倒计时text
+
+    get_user_permit:false,
+    avatarUrl: '../../images/user-unlogin.png',
+    userInfo: {},
+    nickName:"吃土少男少女",
   },
 
 
@@ -172,18 +177,28 @@ Page({
     let that = this;
     let clock = that.data.clock;
     let clock_2 = that.data.clock_2;
+    let get_user_permit = that.data.get_user_permit;
     console.log(clock);
-    if (clock == '00:00 00'&&clock_2=='准备倒计时！') {
+    if (clock == '00:00 00' && clock_2 == '准备倒计时！！！' && !get_user_permit) {
       wx.showToast({
-        title: '请先开始游戏！',
+        title: '请先授权登录！',
         duration: 1000
       })
+      return;
+    };
+    if (clock == '00:00 00' && clock_2 == '准备倒计时！！！') {
+      wx.showToast({
+        title: '请按开始游戏！',
+        duration: 1000
+      })
+      return;
     };
     if (clock === "时间到！") {
       wx.showToast({
         title: '游戏已结束！',
         duration: 1500
       })
+      return;
     };
     if (clock != '00:00 00' && clock != "时间到！") {
       that.data.num += 1;
@@ -202,9 +217,33 @@ Page({
     })
   },
 
+  //授权登录按钮函数
+  test_function6(e){
+    if (!this.logged && e.detail.userInfo) {
+      this.setData({
+        logged: true,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        userInfo: e.detail.userInfo,
+        get_user_permit:true,
+        nickName: e.detail.userInfo.nickName,
+      })
+      console.log(e.detail.userInfo)
+    }
+  },
+
+
   //开始游戏按钮函数
+  //开始游戏之前先让用户确定授权
   test_function5_2: function (options) {
     let that = this;
+    let get_user_permit = that.data.get_user_permit
+    if (!get_user_permit){
+      wx.showToast({
+        title: '请先授权登录！',
+        duration: 1500,
+      })
+      return;
+    }
     wx.showModal({
       title: '提示',
       content: '是否开始游戏倒计时',
@@ -234,6 +273,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.setData({
+                avatarUrl: res.userInfo.avatarUrl,
+                userInfo: res.userInfo,
+                nickName: res.userInfo.nickName,
+              })
+            }
+          })
+        }
+      }
+    })
 
   },
 

@@ -27,7 +27,7 @@ page {
   margin: 20rpx;
   border-radius: 50%;
   background-size: cover;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
 }
 
 .userinfo-avatar:after {

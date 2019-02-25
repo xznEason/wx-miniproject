@@ -3,13 +3,17 @@
 
 <!-- <view class='countDown'>倒计时：<text style='color:red'>{{countDownNum}}</text>s</view> -->
 
-<text style="display:{{hidden_num1?' none':' block'}};text-align: center;font-size: 30px;color: #f60;margin-top: 80px;hidden='true;">
+<text style="display:{{hidden_num1?' none':' block'}};text-align: center;font-size: 30px;color: #f60;margin-top: 60px;hidden='true;">
 	{{clock}} {{micro_second}}
 </text>
 
-<text style="display:{{hidden_num2?' none':' block'}};text-align: center;font-size: 30px;color: #f60;margin-top: 80px;hidden='true;">
+<text style="display:{{hidden_num2?' none':' block'}};text-align: center;font-size: 30px;color: #f60;margin-top: 60px;hidden='true;">
 	{{clock_2}} {{micro_second}}
 </text>
+
+<view class='cl_img'><image src='{{avatarUrl}}' class="userinfo-avatar"></image></view>
+<view class="cl_nName"><text class='cl-nickName'>{{nickName}}</text></view>
+
 
 <view>
 <text class="pro-text">金额为：</text>
@@ -20,13 +24,16 @@
 </view>
 
 
-
 <button class="bt2" bindtap='test_function_4'>
-<view><text>授权</text></view>
+<view><text>测试</text></view>
 </button>
 
 <button class="bt1" bindtap="test_function2_test2" hover-class='bt1_click'>
 <view>抢！</view>
+</button>
+
+<button class="bt4" open-type="getUserInfo" bindgetuserinfo="test_function6">
+授权登录
 </button>
 
 <button class="bt3" bindtap='test_function5_2'>

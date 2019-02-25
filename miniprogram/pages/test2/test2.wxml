@@ -1,0 +1,2 @@
+<view class='countDown'>倒计时：<text style='color:red'>{{countDownNum}}</text>s</view>
+<button bindtap='bt1'>倒计时按钮</button>

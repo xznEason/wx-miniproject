@@ -1,0 +1,10 @@
+<!--pages/test4/test4.wxml-->
+<button  open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">点击授权</button>
+<view>
+<text decode="true">nickName:{{nickName}} \n</text>
+<text decode="true">gender:{{gender}} \n</text>
+<text decode="true">language:{{language}} \n</text>
+<text decode="true">city:{{city}} \n</text>
+<text decode="true">province:{{province}} \n</text>
+<text decode="true">country:{{country}} \n</text>
+</view>

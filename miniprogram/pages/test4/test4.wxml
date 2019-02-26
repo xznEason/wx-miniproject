@@ -8,3 +8,13 @@
 <text decode="true">province:{{province}} \n</text>
 <text decode="true">country:{{country}} \n</text>
 </view>
+
+<button bindtap='data_test'>数据库测试</button>
+
+
+<view wx:for="{{data}}" wx:for-index="key"  wx:for-item="value">
+<text decode='true'>
+{{key}} : \n
+<text decode='true' wx:for="{{value}}" wx:for-index="key_1"  wx:for-item="value_1" >{{key_1}} : {{value_1}} \n</text>
+</text>
+</view>

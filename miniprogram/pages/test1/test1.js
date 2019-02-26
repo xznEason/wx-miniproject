@@ -1,4 +1,8 @@
 // pages/test1/test1.js
+var app=getApp();
+
+//初始化数据库
+const db=wx.cloud.database();
 
 //橙色倒计时窗体
 /** 
@@ -24,8 +28,24 @@ function count_down(that) {
       clock: "时间到！"
     });
     // timeout则跳出递归
+    //同时记录用户的id和获得的数量
+    db.collection('test_data').add({
+      data:{
+        nickName: that.data.userInfo.nickName,
+        goal: that.data.num,
+        country: that.data.userInfo.country,
+        city: that.data.userInfo.city,
+        province: that.data.userInfo.province,
+        gender: that.data.userInfo.gender,
+        language: that.data.userInfo.language,
+      },
+      success(res){
+        console.log(res)
+      }
+    })
     return;
-  }
+    }
+  
   setTimeout(function () {
     // 放在最后--
     total_micro_second -= 10;
@@ -127,6 +147,7 @@ Page({
     avatarUrl: '../../images/user-unlogin.png',
     userInfo: {},
     nickName:"吃土少男少女",
+    user_openid:"",
   },
 
 
@@ -227,7 +248,7 @@ Page({
         get_user_permit:true,
         nickName: e.detail.userInfo.nickName,
       })
-      console.log(e.detail.userInfo)
+      console.log(e.detail)
     }
   },
 
@@ -273,6 +294,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that =this;
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -283,13 +305,33 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo,
                 nickName: res.userInfo.nickName,
+                get_user_permit:true,
               })
             }
           })
         }
       }
     })
-
+    //获取用户openid
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        // console.log('[云函数] [login] user openid: ', res.result.openid)
+        // console.log('[云函数] [login] user appid: ', res.result.appid)
+        // console.log(res.result)
+        app.globalData.openid = res.result.openid
+        that.setData({
+          user_openid: res.result.openid
+        })
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+        wx.navigateTo({
+          url: '../deployFunctions/deployFunctions',
+        })
+      }
+    })
   },
 
   /**

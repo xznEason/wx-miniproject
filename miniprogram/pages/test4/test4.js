@@ -1,6 +1,7 @@
 // pages/test4/test4.js
-Page({
+ var app=getApp();
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -11,6 +12,8 @@ Page({
     city:"",
     province:"",
     country:"",
+
+    data:'',
   },
 
   bindgetuserinfo: function (e) {
@@ -50,6 +53,22 @@ Page({
     }
   },
 
+  data_test(){
+    let that =this;
+    const db=wx.cloud.database();
+    db.collection('test_data').where({
+      _openid: app.globalData.openid,
+    })
+      .get({
+        success(res) {
+          console.log(res.data)
+          that.setData({
+            data:res.data
+          })
+        }
+      })
+    console.log(app.globalData.openid)
+  },
 
 
   /**

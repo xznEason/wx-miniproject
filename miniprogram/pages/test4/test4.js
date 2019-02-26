@@ -14,6 +14,7 @@ Page({
     country:"",
 
     data:'',
+    max_goal:'',
   },
 
   bindgetuserinfo: function (e) {
@@ -53,6 +54,8 @@ Page({
     }
   },
 
+
+  //数据库测试按钮
   data_test(){
     let that =this;
     const db=wx.cloud.database();
@@ -61,13 +64,29 @@ Page({
     })
       .get({
         success(res) {
-          console.log(res.data)
           that.setData({
             data:res.data
           })
         }
       })
-    console.log(app.globalData.openid)
+  },
+
+  //数据库最大值测试按钮
+  data_max_test(){
+    let that =this;
+    //获取用户各次分数
+    var max_goal=that.data['data'][0]['goal']
+    for (var index in that.data['data']) {
+      console.log(that.data.data[index]['goal'])
+      var mid_goal = that.data.data[index]['goal']
+      if(mid_goal >= max_goal){
+        max_goal=mid_goal
+      }
+    }
+    that.setData({
+      max_goal:max_goal,
+    })
+    console.log(max_goal)
   },
 
 

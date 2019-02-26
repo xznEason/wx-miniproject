@@ -18,3 +18,6 @@
 <text decode='true' wx:for="{{value}}" wx:for-index="key_1"  wx:for-item="value_1" >{{key_1}} : {{value_1}} \n</text>
 </text>
 </view>
+
+<button bindtap='data_max_test'>数据库最大值测试</button>
+<view>{{max_goal}}</view>
